@@ -38,7 +38,6 @@ interface EditBookFormInputs {
       .default(0)
       .min(0, "Rating must be at least 0")
       .max(5, "Rating cannot exceed 5"),
-    //   .required("Rating is required"),
     notes: yup.string().default(""),
   });
 
@@ -59,7 +58,6 @@ const EditBookModal:React.FC<EditBookProps> = ({isOpen, onClose,onSubmit, book})
 
     const onFormSubmit = (data: EditBookFormInputs) => {
             onSubmit(data);
-            // onClose();
     };
 
     useEffect(()=>{
@@ -101,11 +99,6 @@ const EditBookModal:React.FC<EditBookProps> = ({isOpen, onClose,onSubmit, book})
               ✖
             </button>
           </div>
-          {/* <div className='relative'>
-          {isDetailsLoaading && (
-          <div className="absolute top-0 left-0 w-full h-1 bg-blue-600 animate-pulse"></div>
-        )}
-          </div> */}
   
           {/* Modal Body */}
           <form onSubmit={handleSubmit(onFormSubmit)} className="p-4">
@@ -159,21 +152,6 @@ const EditBookModal:React.FC<EditBookProps> = ({isOpen, onClose,onSubmit, book})
                 <p className="text-red-500 text-sm mt-1">{errors.author.message}</p>
               )}
             </div>
-  
-           
-  
-            {/* Read Status */}
-            {/* <div className="mb-4">
-              <label htmlFor="read" className="inline-flex items-center">
-                <input
-                  id="read"
-                  type="checkbox"
-                  {...register("read")}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-                <span className="ml-2 text-sm text-gray-700">Mark as Read</span>
-              </label>
-            </div> */}
             {/* Read Status */}
             <div className="mb-4">
               <label htmlFor="read" className="flex items-center cursor-pointer">
@@ -227,16 +205,9 @@ const EditBookModal:React.FC<EditBookProps> = ({isOpen, onClose,onSubmit, book})
               >
                 Cancel
               </button>
-              {/* <button
-                type="submit"
-                className="py-2 px-4 rounded-md bg-blue-600 text-white hover:bg-blue-700"
-              >
-                Add Book
-              </button> */}
                <button
                 type="submit"
                 disabled={editBookState.status === "loading"}
-                // className="py-2 px-4 rounded-md bg-blue-600 text-white hover:bg-blue-700"
                 className={`w-full rounded py-2 ${
                   editBookState.status === "loading"
                     ? "bg-blue-300 cursor-not-allowed"
