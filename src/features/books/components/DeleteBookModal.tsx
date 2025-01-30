@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 interface DeleteBookModalProps {
     isOpen: boolean;
     onClose: () => void;
-    // onDelete: (bookId:string) => void;
     onDelete: () => void;
     book: Book | null
   }
@@ -16,20 +15,10 @@ interface DeleteBookModalProps {
 
 
 
-const DeleteBookModal:React.FC<DeleteBookModalProps> = ({isOpen, onClose, onDelete,book}) => {
+const DeleteBookModal:React.FC<DeleteBookModalProps> = ({isOpen, onClose, onDelete}) => {
 
     const dispatch = useDispatch<AppDispatch>();
     const {deleteBookState,limit,page} = useSelector((state:RootState) => state.books);
-
-    // useEffect(()=>{
-    //     if(deleteBookState.status === "succeeded"){
-    //         // dispatch(deleteBookReset());
-    //         // toast.success("Book deleted successfully");
-    //         console.log("deleteBookState.status",deleteBookState.status);
-            
-    //         onClose();
-    //     }
-    //   },[deleteBookState])
 
     useEffect(()=>{
         console.log("triggered deleteBookState",deleteBookState);
@@ -41,13 +30,6 @@ const DeleteBookModal:React.FC<DeleteBookModalProps> = ({isOpen, onClose, onDele
             console.log("deleteBookState.status",deleteBookState.status);
         }
       },[deleteBookState])
-
-    //   if(deleteBookState.status === "succeeded"){
-    //     // dispatch(deleteBookReset());
-    //     toast.success("Book deleted successfully");
-    //     console.log("deleteBookState.status",deleteBookState.status);
-    //     dispatch(deleteBookReset());
-    // }
 
     if (!isOpen) return null;
 
@@ -75,7 +57,6 @@ const DeleteBookModal:React.FC<DeleteBookModalProps> = ({isOpen, onClose, onDele
               className="px-4 py-2 mr-2 text-gray-500 hover:text-gray-700">Cancel
               </button>
               <button
-            //   onClick={()=> onDelete(book?._id || "")}
               onClick={onDelete}
               className="flex items-center gap-1 p-2 text-white rounded-full transition-colors bg-red-500 hover:bg-red-600">
                 <TrashIcon className="h5 w-5"/>
