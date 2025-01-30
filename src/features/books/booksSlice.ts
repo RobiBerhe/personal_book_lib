@@ -15,13 +15,8 @@ export interface Book {
 
 
 export interface BookDetails {
-//   _id: string | number;
   title: string;
   author: string;
-//   isbn: string;
-//   read: boolean;
-//   notes?:string[]
-//   rating: number;
 }
 
 
@@ -49,7 +44,6 @@ interface BooksState {
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
     error: string | null;
   }
-//   addBookStatus: 'idle' | 'loading' | 'succeeded' | 'failed';
   isDetailsLoaading:boolean,
   error: string | null;
   page:number,
@@ -81,7 +75,6 @@ const initialState: BooksState = {
     status: 'idle',
     error: null,
   },
-//   addBookStatus: 'idle',
   isDetailsLoaading:false,
   error: null,
   page:1,
@@ -100,22 +93,16 @@ const booksSlice = createSlice({
       state.error = null;
     },
     fetchBookByIsbn: (state, action: PayloadAction<string>) => {
-    //   state.status = 'loading';
         state.isDetailsLoaading = true;
-        // state.error = null;
         state.fetchBookDetailsStatus.error = null;
         state.fetchBookDetailsStatus.status = "loading";
     },
     fetchBookByIsbnSuccess: (state, action: PayloadAction<BookDetails>) => {
-    //   state.status = 'succeeded';
       state.isDetailsLoaading = false;
       console.log("action.payload",action.payload);
       state.olBookDetails = action.payload;
-    //   state.books = [action.payload];
     },
     fetchBookByIsbnFailure: (state, action: PayloadAction<string>) => {
-    //   state.status = 'failed';
-    //   state.error = action.payload;
         state.fetchBookDetailsStatus.error = action.payload;
     },
     fetchBooksSuccess: (state, action: PayloadAction<{books:Book[],total:number}>) => {
@@ -128,7 +115,6 @@ const booksSlice = createSlice({
       state.error = action.payload;
     },
     addBook: (state, action: PayloadAction<Book>) => {
-    //   state.books.push(action.payload);
     state.addBookState.status = 'loading';
     state.addBookState.error = null;
     },
@@ -154,12 +140,6 @@ const booksSlice = createSlice({
         state.editBookState.error = null;
     },
     updateBookSuccess: (state, action: PayloadAction<Book>) => {
-        // const index = state.books.findIndex((book) => book._id === action.payload._id);
-        // console.log("index",index, " updating to :> ",action.payload);
-        
-        // if (index !== -1) {
-        //   state.books[index] = action.payload;
-        // }
         state.editBookState.status = 'succeeded';
         state.editBookState.error = null;
     },
@@ -168,7 +148,6 @@ const booksSlice = createSlice({
         state.editBookState.error = action.payload;
     },
     deleteBook: (state, action: PayloadAction<string>) => {
-        // state.books = state.books.filter((book) => book._id !== action.payload);
         state.deleteBookState.status = 'loading';
         state.deleteBookState.error = null;
     },
@@ -177,7 +156,6 @@ const booksSlice = createSlice({
         console.log("payload for success :> ",action.payload);
         
         state.deleteBookState.status = 'succeeded';
-        // state.deleteBookState.error = null;
     },
     deleteBookFailure: (state, action: PayloadAction<string>) => {
         state.deleteBookState.status = 'failed';
