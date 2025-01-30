@@ -32,7 +32,6 @@ const Books: React.FC = () =>{
         read: boolean;
         rating: number;
       }) => {
-        console.log("Book Added:", bookData);
         dispatch(addBook({ ...bookData, _id: '' }));
       };
 
@@ -44,13 +43,11 @@ const Books: React.FC = () =>{
         rating: number;
         notes: string;
       }) => {
-        console.log("Edit Book:", book);
         dispatch(updateBook({ ...book, _id: currentBook?._id || "" }))
       }
 
     
     const handleIsbnSearch = (isbn: string) => {
-        console.log("about to search for isbn:",isbn);
         dispatch(fetchBookByIsbn(isbn));
     }
 
@@ -68,7 +65,6 @@ const Books: React.FC = () =>{
             return;
         }
         setSearchStatus(true);
-        console.log("search query :>>>> ",searchQuery);
         dispatch(searchBooks(searchQuery));
     }
 
@@ -78,7 +74,6 @@ const Books: React.FC = () =>{
 
 
     useEffect(()=>{
-        console.log("filter :>>>> ",filter);
         
         if(filter){
             const filteredBooks = books.filter((book) => {
@@ -90,7 +85,6 @@ const Books: React.FC = () =>{
                     return book.rating >= 4;
                 }
             });
-            console.log("filteredBooks",filteredBooks);
             setFilteredBooks(filteredBooks);
         }
     },[filter])
@@ -198,9 +192,7 @@ const Books: React.FC = () =>{
         )}
 
         </div>
-        {/* <AddBookModal isDetailsLoaading={isDetailsLoaading} addBookStatus={addBook.status} onIsbnSearch={handleIsbnSearch} bookDetails={olBookDetails} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={handleAddBook}/> */}
         <AddBookModal isDetailsLoaading={isDetailsLoaading} onIsbnSearch={handleIsbnSearch} bookDetails={olBookDetails} isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onSubmit={handleAddBook}/>
-        {/* <DeleteBookModal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} book={null} onDelete={onDeleteConfirmed}  /> */}
         <DeleteBookModal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} book={currentBook} onDelete={()=> {
                 if(currentBook){
                     dispatch(deleteBook(currentBook._id));
