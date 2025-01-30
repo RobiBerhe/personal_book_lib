@@ -1,0 +1,10 @@
+
+Todo:
+  ☐ filter books
+  ☐ dashboard stats
+  ☐ edit books
+  ☐ books details
+  ☐ search books (local and with open library)
+  ☐ notes for books
+  ☐ users, associations with books and auth
+  ☐ dockerize both fe and be
