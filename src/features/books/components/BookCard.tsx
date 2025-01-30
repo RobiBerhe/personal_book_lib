@@ -11,10 +11,8 @@ interface BookCardProps {
 }
 
 const BookCard: React.FC<BookCardProps> = ({ book, imgSrc,onDelete,onView,onEdit }) => {
-  // const {deleteBookState} = useSelector((state:RootState)=> state.books);
   const fallbackImage = "https://via.placeholder.com/150?text=No+Image";
 
-  // Function to generate stars based on rating
   const renderStars = (rating: number) => {
     const stars = [];
     for (let i = 1; i <= 5; i++) {
