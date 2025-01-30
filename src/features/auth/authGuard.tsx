@@ -9,7 +9,6 @@ interface AuthGuardProps {
 
 const AuthGuard = ({ children }: AuthGuardProps) => {
   const token = useSelector((state: RootState) => state.auth.token);
-  console.log("token :>> ",token);
   
   const location = useLocation();
 
