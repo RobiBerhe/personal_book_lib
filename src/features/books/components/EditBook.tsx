@@ -74,7 +74,6 @@ const EditBookModal:React.FC<EditBookProps> = ({isOpen, onClose,onSubmit, book})
     
 
     useEffect(() => {
-        console.log("triggered editbookstate",editBookState);
         if (editBookState.status === "succeeded") {
             dispatch(editBookReset());
             onClose();

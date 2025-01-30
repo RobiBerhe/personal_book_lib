@@ -21,8 +21,6 @@ const DeleteBookModal:React.FC<DeleteBookModalProps> = ({isOpen, onClose, onDele
     const {deleteBookState,limit,page} = useSelector((state:RootState) => state.books);
 
     useEffect(()=>{
-        console.log("triggered deleteBookState",deleteBookState);
-        
         if(deleteBookState.status === "succeeded"){
             dispatch(deleteBookReset());
             dispatch(fetchBooks({page,limit}));

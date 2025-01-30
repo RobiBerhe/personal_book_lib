@@ -74,8 +74,6 @@ const AddBookModal:React.FC<AddBookModalProps> = ({isOpen, onClose, onSubmit,onI
 
 
       useEffect(() => {
-        console.log("triggered addBookState",addBookState);
-        
         if (addBookState.status === "succeeded") {
           dispatch(addBookReset());
           onClose();
