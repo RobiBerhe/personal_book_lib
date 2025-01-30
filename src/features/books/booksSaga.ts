@@ -134,8 +134,7 @@ function * fetchDashboardStatsSaga(action:{payload:string,type:string}) {
                 Authorization: `Bearer ${token}`,
             },
         }
-        const userId = localStorage.getItem("userId");
-        const response:{data:{booksStats:[{totalBooks:number,totalRead:number,totalUnread:number}]}} =  yield call(axios.get<any>, `${API_BASE_URL}/books/stats/${userId}`,config);
+        const response:{data:{booksStats:[{totalBooks:number,totalRead:number,totalUnread:number}]}} =  yield call(axios.get<any>, `${API_BASE_URL}/books/stats`,config);
         yield put(fetchDashboardStatsSuccess({totalBooks:response.data.booksStats[0].totalBooks,totalReadBooks:response.data.booksStats[0].totalRead,totalUnreadBooks:response.data.booksStats[0].totalUnread}));
     } catch (error:any) {
         console.log("err [fetchDashboardStatsSaga]:",error);
