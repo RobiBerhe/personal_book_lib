@@ -41,7 +41,6 @@ const schema = yup.object().shape({
     .transform((value,originalValue) => originalValue.trim() === "" ? 0 : value)
     .min(0, "Rating must be at least 0")
     .max(5, "Rating cannot exceed 5")
-    // .required("Rating is required"),
 });
 
 const AddBookModal:React.FC<AddBookModalProps> = ({isOpen, onClose, onSubmit,onIsbnSearch,bookDetails,isDetailsLoaading}) => {
@@ -70,9 +69,6 @@ const AddBookModal:React.FC<AddBookModalProps> = ({isOpen, onClose, onSubmit,onI
         if (bookDetails) {
           setValue("title", bookDetails.title);
           setValue("author", bookDetails.author);
-          // setValue("isbn", bookDetails.isbn);
-          // setValue("read", bookDetails.read);
-          // setValue("rating", bookDetails.rating);
         }
       }, [bookDetails, setValue]);
 
@@ -90,14 +86,7 @@ const AddBookModal:React.FC<AddBookModalProps> = ({isOpen, onClose, onSubmit,onI
 
     const onFormSubmit = (data: AddBookFormInputs) => {
         onSubmit(data);
-        // onClose();
       };
-
-      // if (addBookState.status === "succeeded") {
-      //   console.log("onclose has been called....");
-        
-      //   onClose();
-      // }
 
     if(!isOpen) return null;
 
@@ -174,21 +163,6 @@ const AddBookModal:React.FC<AddBookModalProps> = ({isOpen, onClose, onSubmit,onI
                 <p className="text-red-500 text-sm mt-1">{errors.author.message}</p>
               )}
             </div>
-  
-           
-  
-            {/* Read Status */}
-            {/* <div className="mb-4">
-              <label htmlFor="read" className="inline-flex items-center">
-                <input
-                  id="read"
-                  type="checkbox"
-                  {...register("read")}
-                  className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                />
-                <span className="ml-2 text-sm text-gray-700">Mark as Read</span>
-              </label>
-            </div> */}
             {/* Read Status */}
             <div className="mb-4">
               <label htmlFor="read" className="flex items-center cursor-pointer">
@@ -237,16 +211,9 @@ const AddBookModal:React.FC<AddBookModalProps> = ({isOpen, onClose, onSubmit,onI
               >
                 Cancel
               </button>
-              {/* <button
-                type="submit"
-                className="py-2 px-4 rounded-md bg-blue-600 text-white hover:bg-blue-700"
-              >
-                Add Book
-              </button> */}
                <button
                 type="submit"
                 disabled={addBookState.status === "loading"}
-                // className="py-2 px-4 rounded-md bg-blue-600 text-white hover:bg-blue-700"
                 className={`w-full rounded py-2 ${
                   addBookState.status === "loading"
                     ? "bg-blue-300 cursor-not-allowed"
