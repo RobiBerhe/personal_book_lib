@@ -34,20 +34,6 @@ const authSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    // signInSuccess: (state, action: PayloadAction<{ user: any; token: string }>) => {
-    //   state.user = action.payload.user;
-    //   state.token = action.payload.token;
-    //   state.loading = false;
-    //   localStorage.setItem("token", action.payload.token);
-    // },
-
-    // signInSuccess: (state, action: PayloadAction<{ user: any; }>) => {
-    //     state.user = action.payload.user;
-    //     state.token = action.payload.user.token;
-    //     state.loading = false;
-    //     localStorage.setItem("token", action.payload.user.token);
-    //   },
-
       signInSuccess: (state, action: PayloadAction<{ user: User; }>) => {
         state.user = action.payload.user;
         state.token = action.payload.user.token? action.payload.user.token : null;
@@ -62,12 +48,6 @@ const authSlice = createSlice({
       state.loading = true;
       state.error = null;
     },
-    // signUpSuccess: (state, action: PayloadAction<{ user: any; token: string }>) => {
-    //   state.user = action.payload.user;
-    //   state.token = action.payload.token;
-    //   state.loading = false;
-    //   localStorage.setItem("token", action.payload.token);
-    // },
     signUpSuccess: (state, action: PayloadAction<{ user: User; }>) => {
         state.user = action.payload.user;
         state.token = action.payload.user.token? action.payload.user.token : null;
