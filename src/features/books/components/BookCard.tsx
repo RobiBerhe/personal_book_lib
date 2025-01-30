@@ -1,25 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { TrashIcon, PencilIcon } from "@heroicons/react/24/solid";
-import { Book, deleteBook, deleteBookReset } from "../booksSlice";
-import DeleteBookModal from "./DeleteBookModal";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../../store";
-import { toast } from "react-toastify";
-// import { toast } from "react-toastify";
+import { Book } from "../booksSlice";
 
 interface BookCardProps {
   book: Book;
   imgSrc: string;
-  // onDelete: (bookId: string) => void;
   onDelete: (book: Book) => void;
   onView: (book: Book) => void;
   onEdit: (book: Book) => void;
 }
 
 const BookCard: React.FC<BookCardProps> = ({ book, imgSrc,onDelete,onView,onEdit }) => {
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const dispatch = useDispatch<AppDispatch>();
-  const {deleteBookState} = useSelector((state:RootState)=> state.books);
   // const {deleteBookState} = useSelector((state:RootState)=> state.books);
   const fallbackImage = "https://via.placeholder.com/150?text=No+Image";
 
@@ -48,27 +39,6 @@ const BookCard: React.FC<BookCardProps> = ({ book, imgSrc,onDelete,onView,onEdit
     return stars;
   };
 
-
-
-  const onDeleteConfirmed = () => {
-    setIsDeleteModalOpen(false);
-    console.log("delete confirmed for :> ",book._id);
-    dispatch(deleteBook(book._id));
-    
-  };
-
-
-  // useEffect(()=>{
-  //   console.log("deleteBookState",deleteBookState);
-    
-  //   if(deleteBookState.status === 'succeeded'){
-  //     toast.success("Book deleted successfully");
-  //     dispatch(deleteBookReset());
-  //   }
-  //   // if(deleteBookState.status === 'failed'){
-  //   //   toast.error("Failed to delete book");
-  //   // }
-  // },[])
 
 
 
@@ -113,14 +83,6 @@ const BookCard: React.FC<BookCardProps> = ({ book, imgSrc,onDelete,onView,onEdit
   
         {/* Action Buttons */}
         <div className="mt-4 flex items-center justify-between">
-          {/* <button
-            onClick={()=> onView({...book,imgSrc,notes:["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]})}
-            className="flex items-center gap-1 text-indigo-600 hover:text-indigo-800 transition-colors"
-            title="View Details"
-          >
-            <EyeIcon className="h-5 w-5" />
-            <span className="text-sm">View</span>
-          </button> */}
           <button
             onClick={()=> onEdit({...book})}
             className="flex items-center gap-1 text-indigo-600 hover:text-indigo-800 transition-colors"
@@ -130,8 +92,6 @@ const BookCard: React.FC<BookCardProps> = ({ book, imgSrc,onDelete,onView,onEdit
             <span className="text-sm">Edit</span>
           </button>
           <button
-            // onClick={() => onDelete(book._id)}
-            // onClick={() => setIsDeleteModalOpen(true)}
             onClick={() =>onDelete(book) }
             className="flex items-center gap-1 text-red-600 hover:text-red-800 transition-colors"
             title="Delete"
@@ -142,8 +102,6 @@ const BookCard: React.FC<BookCardProps> = ({ book, imgSrc,onDelete,onView,onEdit
         </div>
       </div>
     </div>
-    {/* <DeleteBookModal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} book={book} onDelete={(bookId:string)=> {console.log("deleting :> ",bookId); onDeleteConfirmed("")}}  /> */}
-    {/* <DeleteBookModal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)} book={book} onDelete={onDeleteConfirmed}  /> */}
   </div>
   
   );
