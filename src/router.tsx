@@ -13,27 +13,8 @@ const router = createBrowserRouter([
     path: "/",
     element: <App/>,
     children: [
-      // {
-      //   path: "/signin",
-      //   element: <SignIn />,
-      // },
-      // {
-      //   path: "/signup",
-      //   element: <SignUp />,
-      // },
-      // {
-      //   path: "/",
-      //   // element: <h1>Home</h1>,
-      //   element: <Dashboard/>,
-      // },
-      // {
-      //   path: "/home",
-      //   // element: <h1>Add Book</h1>,
-      //   element: <Books/>,
-      // }
       {
         path: "/",
-        // element: <h1>Home</h1>,
         element: (
           <AuthGuard>
             <Dashboard/>
@@ -42,7 +23,6 @@ const router = createBrowserRouter([
       },
       {
         path: "/home",
-        // element: <h1>Add Book</h1>,
         element:(
           <AuthGuard>
             <Books/>
