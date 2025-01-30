@@ -1,5 +1,5 @@
 import axios from "axios";
-import { call, put, select, take, takeLatest } from "redux-saga/effects";
+import { call, put, select, takeLatest } from "redux-saga/effects";
 import { addBook, addBookFailure, addBookSuccess, Book, BookDetails, deleteBook, deleteBookFailure, deleteBookSuccess, fetchBookByIsbn, fetchBookByIsbnFailure, fetchBookByIsbnSuccess, fetchBooks, fetchBooksFailure, fetchBooksSuccess, searchBooks, searchBooksFailure, searchBooksSuccess, updateBook, updateBookFailure, updateBookSuccess } from "./booksSlice";
 
 
@@ -16,7 +16,6 @@ function* fetchBooksSaga(action: {payload:{page:number,limit:number},type:string
             },
         }
         const response:{data:{books:{docs:Book[],totalDocs:number}}} =  yield call(axios.get<Book[]>, `${API_BASE_URL}/books?page=${action.payload.page}&limit=${action.payload.limit}`,config);
-        console.log("response",response);
         yield put(fetchBooksSuccess({books:response.data.books.docs,total:response.data.books.totalDocs}));
     } catch (error:any) {
         console.log("[fetchBooksSaga]:",error);
@@ -29,8 +28,6 @@ function* fetchBookByIsbnSaga(action:{payload:string,type:string}) {
     try {
         const details:{data:BookDetails} =  yield call(axios.get<Book>, `${API_BASE_OPEN_LIB}/isbn/${action.payload}.json`);
         const authRes: {data:{docs:[{author_name:string}]}} =  yield call(axios.get<any>, `${API_BASE_OPEN_LIB}/search.json?isbn=/${action.payload}.json`);
-        console.log("response",details);
-        console.log("author name : ",authRes.data.docs[0].author_name);
         details.data.author = authRes.data.docs[0].author_name[0];
         yield put(fetchBookByIsbnSuccess(details.data));
     } catch (error:any) {
@@ -55,7 +52,6 @@ function* addBookSaga(action:{payload:Book,type:string}) {
         }
         const {author,isbn,rating,read,title} = action.payload
         const response:{data:{book:Book}} =  yield call(axios.post<Book>, `${API_BASE_URL}/books`,{author,isbn,rating,read,title},config);
-        console.log("response",response);
         yield put(addBookSuccess(response.data.book));
     } catch (error:any) {
         console.log("err [addbooksaga]:",error);
@@ -76,7 +72,6 @@ function *updateBookSaga(action:{payload:Book,type:string}) {
         }
         const {author,isbn,rating,read,title,notes,_id} = action.payload
         const response:{data:{book:Book}} =  yield call(axios.put<Book>, `${API_BASE_URL}/books/${_id}`,{author,isbn,rating,read,title,notes},config);
-        console.log("response",response);
         yield put(updateBookSuccess(response.data.book));
     } catch (error:any) {
         console.log("err [updatebooksaga]:",error);
@@ -97,7 +92,6 @@ function* deleteBookSaga(action:{payload:string,type:string}) {
             },
         }
         const response:{data:{message:string}} =  yield call(axios.delete<Book>, `${API_BASE_URL}/books/${action.payload}`,config);
-        console.log("response",response);
         yield put(deleteBookSuccess(response.data.message));
     } catch (error:any) {
         console.log("err [deletebooksaga]:",error);
@@ -112,7 +106,6 @@ function* deleteBookSaga(action:{payload:string,type:string}) {
 function * searchBooksSaga(action:{payload:string,type:string}) {
     try {
         const response: {data:{docs:[{author_name:string,title:string,cover_i:number}]}} =  yield call(axios.get<any>, `${API_BASE_OPEN_LIB}/search.json?q=${action.payload}`);
-        console.log("response",response.data.docs);
         const books:Book[] = response.data.docs.map((book,i)=>{
             console.log("current book :> ",book);
             
