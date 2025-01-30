@@ -107,8 +107,6 @@ function * searchBooksSaga(action:{payload:string,type:string}) {
     try {
         const response: {data:{docs:[{author_name:string,title:string,cover_i:number}]}} =  yield call(axios.get<any>, `${API_BASE_OPEN_LIB}/search.json?q=${action.payload}`);
         const books:Book[] = response.data.docs.map((book,i)=>{
-            console.log("current book :> ",book);
-            
             return {
                 title:book.title,
                 author:book.author_name,
