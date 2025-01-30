@@ -48,7 +48,16 @@ interface BooksState {
   error: string | null;
   page:number,
   limit:number,
-  total:number
+  total:number,
+  dashboardStats:{
+    totalBooks:number,
+    totalReadBooks:number,
+    totalUnreadBooks:number,
+  },
+  dashboardStatsState:{
+    status: 'idle' | 'loading' | 'succeeded' | 'failed';
+    error: string | null;
+  }
 }
 
 const initialState: BooksState = {
@@ -79,7 +88,16 @@ const initialState: BooksState = {
   error: null,
   page:1,
   limit:4,
-  total:0
+  total:0,
+  dashboardStats:{
+    totalBooks:0,
+    totalReadBooks:0,
+    totalUnreadBooks:0,
+  },
+  dashboardStatsState:{
+    status: 'idle',
+    error: null,
+  },
 };
 
 const booksSlice = createSlice({
@@ -178,7 +196,22 @@ const booksSlice = createSlice({
     searchBooksFailure: (state, action: PayloadAction<string>) => {
         state.searchBooksState.status = 'failed';
         state.searchBooksState.error = action.payload;
-    }
+    },
+    fetchDashboardStats: (state) => {
+        state.dashboardStatsState.status = 'loading';
+        state.dashboardStatsState.error = null;
+    },
+    fetchDashboardStatsSuccess: (state, action: PayloadAction<{totalBooks:number,totalReadBooks:number,totalUnreadBooks:number}>) => {
+        state.dashboardStatsState.status = 'succeeded';
+        state.dashboardStats.totalBooks = action.payload.totalBooks;
+        state.dashboardStats.totalReadBooks = action.payload.totalReadBooks;
+        state.dashboardStats.totalUnreadBooks = action.payload.totalUnreadBooks;
+        state.dashboardStats = action.payload;
+    },
+    fetchDashboardStatsFailure: (state, action: PayloadAction<string>) => {
+        state.dashboardStatsState.status = 'failed';
+        state.dashboardStatsState.error = action.payload;
+    },
 }
 });
 export const {
@@ -202,7 +235,10 @@ export const {
     updateBookSuccess,
     searchBooks,
     searchBooksFailure,
-    searchBooksSuccess
+    searchBooksSuccess,
+    fetchDashboardStats,
+    fetchDashboardStatsSuccess,
+    fetchDashboardStatsFailure,
 } = booksSlice.actions;
 
 export default booksSlice.reducer;

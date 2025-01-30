@@ -1,6 +1,6 @@
 import axios from "axios";
 import { call, put, select, takeLatest } from "redux-saga/effects";
-import { addBook, addBookFailure, addBookSuccess, Book, BookDetails, deleteBook, deleteBookFailure, deleteBookSuccess, fetchBookByIsbn, fetchBookByIsbnFailure, fetchBookByIsbnSuccess, fetchBooks, fetchBooksFailure, fetchBooksSuccess, searchBooks, searchBooksFailure, searchBooksSuccess, updateBook, updateBookFailure, updateBookSuccess } from "./booksSlice";
+import { addBook, addBookFailure, addBookSuccess, Book, BookDetails, deleteBook, deleteBookFailure, deleteBookSuccess, fetchBookByIsbn, fetchBookByIsbnFailure, fetchBookByIsbnSuccess, fetchBooks, fetchBooksFailure, fetchBooksSuccess, fetchDashboardStats, fetchDashboardStatsFailure, fetchDashboardStatsSuccess, searchBooks, searchBooksFailure, searchBooksSuccess, updateBook, updateBookFailure, updateBookSuccess } from "./booksSlice";
 
 
 const API_BASE_URL = "http://localhost:8081/api";
@@ -125,6 +125,24 @@ function * searchBooksSaga(action:{payload:string,type:string}) {
     }
 }
 
+
+function * fetchDashboardStatsSaga(action:{payload:string,type:string}) {
+    try {
+        const {token} = yield select((state) => state.auth);
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+        const userId = localStorage.getItem("userId");
+        const response:{data:{booksStats:[{totalBooks:number,totalRead:number,totalUnread:number}]}} =  yield call(axios.get<any>, `${API_BASE_URL}/books/stats/${userId}`,config);
+        yield put(fetchDashboardStatsSuccess({totalBooks:response.data.booksStats[0].totalBooks,totalReadBooks:response.data.booksStats[0].totalRead,totalUnreadBooks:response.data.booksStats[0].totalUnread}));
+    } catch (error:any) {
+        console.log("err [fetchDashboardStatsSaga]:",error);
+        yield put(fetchDashboardStatsFailure(error.message));
+    }
+}
+
 export default function* booksSaga() {
     yield takeLatest(fetchBooks.type, fetchBooksSaga);
     yield takeLatest(fetchBookByIsbn.type, fetchBookByIsbnSaga);
@@ -132,4 +150,5 @@ export default function* booksSaga() {
     yield takeLatest(deleteBook.type, deleteBookSaga);
     yield takeLatest(updateBook.type, updateBookSaga);
     yield takeLatest(searchBooks.type, searchBooksSaga);
+    yield takeLatest(fetchDashboardStats.type, fetchDashboardStatsSaga);
 }
