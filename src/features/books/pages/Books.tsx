@@ -1,37 +1,20 @@
 import React, { useEffect, useState } from "react";
-// import BooksList from "../ui/BooksList";
 import SearchBar from "../components/SearchBar";
 import FilterDropdown from "../components/FilterDropdown";
 import BookCard from "../components/BookCard";
-// import Pagination from "../components/Pagination";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import AddBookModal from "../components/AddBookModal";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../../store";
 import { addBook, Book, deleteBook, fetchBookByIsbn, fetchBooks, searchBooks, updateBook } from "../booksSlice";
 import DeleteBookModal from "../components/DeleteBookModal";
-import ReactPaginate from "react-paginate";
-import Pagination from "../components/Pagination";
 import ViewBookDetailsModal from "../components/ViewDetailsModal";
-import EditBook from "../components/EditBook";
 import EditBookModal from "../components/EditBook";
 import BookSearchCard from "../components/BookSearchCard";
 
-
-// export interface Book {
-//     id: number;
-//     title: string;
-//     author: string;
-//     isbn: string;
-//     read: boolean;
-//     rating: number;
-//     notes: string;
-//   }
-
 const Books: React.FC = () =>{
     const dispatch = useDispatch<AppDispatch>();
-    const {books,error,status,olBookDetails,addBookState,isDetailsLoaading,page,limit,total} = useSelector((state:RootState) => state.books);
-    // const [books, setBooks] = useState<Book[]>([]);
+    const {books,error,status,olBookDetails,isDetailsLoaading,page,limit,total} = useSelector((state:RootState) => state.books);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [currentBook, setCurrentBook] = useState<Book | null>(null);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -41,16 +24,6 @@ const Books: React.FC = () =>{
     const [searchStatus, setSearchStatus] = useState<boolean>(false);
     const [filter, setFilter] = useState<string | null>("");
     const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const booksPerPage = 8;
-
-
-
-
-    // const indexOfLastBook = currentPage * booksPerPage;
-    // const indexOfFirstBook = indexOfLastBook - booksPerPage;
-    // const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
-
 
     const handleAddBook = (bookData: {
         title: string;
@@ -82,20 +55,7 @@ const Books: React.FC = () =>{
     }
 
 
-    const onDeleteConfirmed = (bookId: string) => {
-        // Perform the delete operation here
-        console.log("Delete confirmed",bookId);
-        // You can make an API call or perform any other necessary actions here
-        setIsDeleteModalOpen(false);
-        // You can update the state or perform any other necessary actions here
-    }
-
     const totalPages = Math.ceil(total / limit);
-
-    // const handlePageChange = (selected: { selected: number }) => {
-    //     const newPage = selected.selected + 1; // React Paginate uses 0-based indexing
-    //     dispatch(fetchBooks({ page: newPage, limit }));
-    // };
 
     const handlePageChange = (newPage: number) => {
         dispatch(fetchBooks({ page: newPage, limit }));
@@ -112,9 +72,6 @@ const Books: React.FC = () =>{
         dispatch(searchBooks(searchQuery));
     }
 
-    //   useEffect(() => {
-    //     dispatch(fetchBooks());
-    //   }, [dispatch]);
     useEffect(() => {
         dispatch(fetchBooks({page,limit}));
     }, [dispatch]);
@@ -124,7 +81,6 @@ const Books: React.FC = () =>{
         console.log("filter :>>>> ",filter);
         
         if(filter){
-            // const filteredBooks = books.filter((book) => book.read === (filter === "read"));
             const filteredBooks = books.filter((book) => {
                 if (filter === "read") {
                     return book.read;
@@ -151,17 +107,7 @@ const Books: React.FC = () =>{
 
     return (
         <>
-            {/* <div className="mt-[-20px]"> */}
             <div className="mt-[-20px]">
-        {/* <h1 className="text-2xl font-bold">My Books</h1>
-        <div className="flex flex-col md:flex-row justify-between gap-4">
-            <SearchBar setSearchQuery={setSearchQuery} />
-            <FilterDropdown setFilter={setFilter} />
-            <button className="bg-blue-700 text-white px-4 py-4 rounded-full flex items-center justify-center" title="Add a new book" onClick={()=> setIsAddModalOpen(true)}>
-                <PlusIcon className="h-5 w-5" />
-            </button>
-        </div> */}
-        {/* Header */}
 {/* Header */}
 <div className="p-4 bg-white shadow-md space-y-4 sticky top-[-25px] z-10 mb-8">
   {/* Title */}
@@ -250,21 +196,7 @@ const Books: React.FC = () =>{
                 
             </>
         )}
-        
-        {/* <Pagination
-            totalItems={filteredBooks.length}
-            itemsPerPage={booksPerPage}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-        /> */}
-         {/* <ReactPaginate
-                pageCount={totalPages}
-                pageRangeDisplayed={3}
-                marginPagesDisplayed={2}
-                onPageChange={handlePageChange}
-                containerClassName="pagination"
-                activeClassName="active"
-            /> */}
+
         </div>
         {/* <AddBookModal isDetailsLoaading={isDetailsLoaading} addBookStatus={addBook.status} onIsbnSearch={handleIsbnSearch} bookDetails={olBookDetails} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} onSubmit={handleAddBook}/> */}
         <AddBookModal isDetailsLoaading={isDetailsLoaading} onIsbnSearch={handleIsbnSearch} bookDetails={olBookDetails} isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} onSubmit={handleAddBook}/>
