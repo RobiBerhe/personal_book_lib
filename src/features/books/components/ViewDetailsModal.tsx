@@ -41,22 +41,9 @@ const ViewBookDetailsModal:React.FC<ViewBookDetailsModalProps> = ({isOpen, book,
                         <div className="flex items-center gap-2 mt-4">
                         <span className="text-yellow-500 text-xl">⭐ {book?.rating}</span>
                         </div>
-
-                        {/* <p className="text-gray-700 mt-6 text-lg">
-                        <strong>Notes:</strong> {book?.notes || "No notes available."}
-                        </p> */}
                        <div className="mt-6 w-full">
                             <h4 className="text-lg font-semibold">Notes:</h4>
                             <div className="mt-2 p-4 bg-gray-100 rounded-md max-h-40 overflow-y-auto w-[100%] mx-auto">
-                                {/* {book?.notes && book.notes.length > 0 ? (
-                                <ul className="list-disc list-inside space-y-2">
-                                    {book.notes.map((note, index) => (
-                                    <li key={index} className="text-gray-700">{note}</li>
-                                    ))}
-                                </ul>
-                                ) : (
-                                <p className="text-gray-500">No notes available.</p>
-                                )} */}
                                  <p className="text-gray-700 mt-6 text-lg">
                                 <strong>Notes:</strong> {book?.notes || "No notes available."}
                                 </p>
